@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ProductCategoryEntity } from "./product-category.entity"
 
 @Injectable()
 export class ProductCategoryService {
-    private readonly productCategoriesData = [
-        { id: 1, name: 'Computers', description: 'This is the description of Computers' },
-        { id: 2, name: 'Mouses', description: 'This is the description of Mouses' },
-    ];
+    constructor(
+        @InjectRepository(ProductCategoryEntity)
+        private ProductCategoryRepository: Repository<ProductCategoryEntity>,
+    ) {}
 
     getProductCategories(): Promise<any>{
-        return new Promise(resolve => {
-            resolve(this.productCategoriesData);
-        });
+        return this.ProductCategoryRepository.find();
     }
 
     getProductCategory(id: number): Promise<any>{
-        return new Promise(resolve => {
-            resolve(this.productCategoriesData.find(category => category.id === id));
-        });
+        return this.ProductCategoryRepository.findOneBy({ id });
     }
 }

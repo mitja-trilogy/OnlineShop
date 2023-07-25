@@ -1,28 +1,16 @@
-import { Resolver, Query, Args } from '@nestjs/graphql';
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args, Int } from '@nestjs/graphql';
 import { ProductCategoryService } from './product-category.service';
+import { ProductCategoryDTO } from './dto/product-category.dto';
 
-@ObjectType()
-export class ProductCategory {
-    @Field(type => Int)
-    id: number;
-
-    @Field()
-    name: string;
-
-    @Field()
-    description: string;
-}
-
-@Resolver('ProductCategory')
+@Resolver(() => ProductCategoryDTO)
 export class ProductCategoryResolver {
     constructor(private productCategoryService: ProductCategoryService) { }
-    @Query(returns => [ProductCategory])
+    @Query(returns => [ProductCategoryDTO])
     productCategories() {
         return this.productCategoryService.getProductCategories();
     }
 
-    @Query(returns => ProductCategory, { nullable: true })
+    @Query(returns => ProductCategoryDTO, { nullable: true })
     productCategory(@Args('id', { type: () => Int }) id: number) {
         return this.productCategoryService.getProductCategory(id);
     }

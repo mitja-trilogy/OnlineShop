@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ProductCategoryService {
     private readonly productCategoriesData = [
-        { id: 1, name: 'Category 1', description: 'This is the description of Category 1' },
-        { id: 2, name: 'Category 2', description: 'This is the description of Category 2' },
+        { id: 1, name: 'Computers', description: 'This is the description of Computers' },
+        { id: 2, name: 'Mouses', description: 'This is the description of Mouses' },
     ];
 
     getProductCategories(): Promise<any>{

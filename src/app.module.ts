@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ProductCategoryModule } from './product-category/product-category.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { ApolloDriver } from '@nestjs/apollo';
           driver: ApolloDriver,
           autoSchemaFile: true,
       }),
-      ProductCategoryModule
+      ProductCategoryModule,
+      ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

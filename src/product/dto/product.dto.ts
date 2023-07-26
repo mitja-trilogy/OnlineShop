@@ -1,6 +1,5 @@
-import { FilterableField, IDField } from '@nestjs-query/query-graphql';
-import { ObjectType, InputType, OmitType, ID, Field } from '@nestjs/graphql';
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne} from 'typeorm';
+import {  IDField } from '@nestjs-query/query-graphql';
+import { ObjectType, InputType, ID, Field } from '@nestjs/graphql';
 
 @InputType()
 @ObjectType()
@@ -18,7 +17,7 @@ export class Product {
     weight!: number;
 
     @Field({nullable: true})
-    category!: number;
+    categoryId!: number;
 
     @Field()
     supplier!: number;
@@ -35,3 +34,9 @@ export class ProductDTO extends Product{
 }
 @InputType('ProductInput')
 export class ProductInput extends Product {}
+
+@ObjectType('ProductMutation')
+export class ProductMutation {
+    @Field()
+    success!: boolean
+}

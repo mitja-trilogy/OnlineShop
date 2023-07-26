@@ -22,6 +22,9 @@ export class ProductEntity {
     @ManyToOne(() => ProductCategoryEntity, (productCategory) => productCategory.id)
     category: ProductCategoryEntity
 
+    @Column({ nullable: true })
+    categoryId: number
+
     @Column()
     supplier: number;
 
@@ -30,7 +33,7 @@ export class ProductEntity {
 
     generateFromInputData(productInput: ProductInput){
         let productCategoryEntity: ProductCategoryEntity = new ProductCategoryEntity();
-        productCategoryEntity.id = productInput.category;
+        productCategoryEntity.id = productInput.categoryId;
         this.name = productInput.name;
         this.description = productInput.description;
         this.price = productInput.price;
@@ -38,5 +41,6 @@ export class ProductEntity {
         this.supplier = productInput.supplier;
         this.imageUrl = productInput.imageUrl;
         this.category = productCategoryEntity;
+        this.categoryId = productInput.categoryId;
     }
 }

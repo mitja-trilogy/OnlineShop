@@ -1,7 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ProductService } from './product.service';
-import { ProductDTO, ProductInput} from './dto/product.dto';
-import { OmitType } from '@nestjs/graphql';
+import { ProductDTO, ProductInput, ProductMutation} from './dto/product.dto';
 
 @Resolver(() => ProductDTO)
 export class ProductResolver {
@@ -21,12 +20,12 @@ export class ProductResolver {
         return this.productService.addProduct(input);
     }
 
-    @Mutation(returns => ProductDTO)
+    @Mutation(returns => ProductMutation)
     updateProduct(@Args('input') input: ProductDTO) {
         return this.productService.updateProduct(input);
     }
 
-    @Mutation(returns => ProductDTO)
+    @Mutation(returns => ProductMutation)
     deleteProduct(@Args('id') id: number) {
         return this.productService.deleteProduct(id);
     }

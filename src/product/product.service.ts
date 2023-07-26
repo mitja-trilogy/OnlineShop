@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {ProductInput, ProductDTO} from "./dto/product.dto";
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import {DeleteResult, Repository, UpdateResult} from 'typeorm';
 import { ProductEntity } from "./product.entity";
 import { ProductCategoryEntity } from '../product-category/product-category.entity';
 
@@ -12,32 +12,10 @@ export class ProductService {
         private ProductRepository: Repository<ProductEntity>,
     ) {}
 
-    async getProductsForCategory(category: number): Promise<any>{
+    getProductsForCategory(category: number): Promise<any>{
         let productCategoryEntity: ProductCategoryEntity = new ProductCategoryEntity();
-        console.log(productCategoryEntity)
         productCategoryEntity.id = category;
-        console.log(productCategoryEntity)
-        // let result = await this.ProductRepository.findBy({ category: productCategoryEntity});
-        let result = await this.ProductRepository.find({
-            where: { category: productCategoryEntity },
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                price: true,
-                weight: true,
-                supplier: true,
-                imageUrl: true,
-                category: {
-                    id: true
-                }
-            },
-            relations: {
-                category: true,
-            },
-        });
-        console.log(result)
-        return result;
+        return this.ProductRepository.findBy({ categoryId: category});
     }
 
     getProduct(id: number): Promise<any>{
@@ -61,26 +39,26 @@ export class ProductService {
         let productEntity: ProductEntity = new ProductEntity();
         productEntity.generateFromInputData(productInput);
         productEntity.id = productInput.id;
-        console.log(productEntity.id)
-        let result = await this.ProductRepository.update({id: productEntity.id}, productEntity);
-        console.log(result)
-        const newProduct: ProductDTO = {
-            ...productInput,
-        };
+        let result : UpdateResult = await this.ProductRepository.update({id: productEntity.id}, productEntity);
+        let success : boolean = false;
+        if (result.affected === 1){
+            success = true;
+        }
         return new Promise(resolve => {
-            resolve(newProduct);
+            resolve({success: success});
         });
     }
 
     async deleteProduct(id: number): Promise<any>{
         let productEntity: ProductEntity = new ProductEntity();
         productEntity.id = id;
-        console.log(productEntity.id)
-        let result = await this.ProductRepository.delete({id: productEntity.id});
-        console.log(result)
-
+        let result : DeleteResult = await this.ProductRepository.delete({id: productEntity.id});
+        let success : boolean = false;
+        if (result.affected === 1){
+            success = true;
+        }
         return new Promise(resolve => {
-            resolve("DELETED");
+            resolve({success: success});
         });
     }
 }

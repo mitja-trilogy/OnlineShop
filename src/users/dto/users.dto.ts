@@ -1,5 +1,5 @@
 import { FilterableField, IDField } from '@nestjs-query/query-graphql';
-import { ObjectType, ID, Field } from '@nestjs/graphql';
+import { ObjectType, InputType, ID, Field } from '@nestjs/graphql';
 
 @ObjectType('Users')
 export class UsersDTO {
@@ -9,7 +9,17 @@ export class UsersDTO {
     @Field()
     role!: string;
 
+}
+
+@InputType('UsersInput')
+export class UsersInput {
+    @IDField(() => ID)
+    username!: string;
+
     @Field()
-    id!: number;
+    role!: string;
+
+    @Field()
+    password!: string;
 
 }

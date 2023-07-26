@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {UsersInput} from "./dto/users.dto";
 
 @Entity()
 export class UsersEntity {
@@ -13,4 +14,10 @@ export class UsersEntity {
 
     @Column()
     role: string;
+
+    generateFromInputData(user: UsersInput){
+        this.username = user.username;
+        this.password = user.password;
+        this.role = user.role;
+    }
 }
